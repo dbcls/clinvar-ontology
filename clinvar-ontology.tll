@@ -12,6 +12,14 @@
                                           owl:imports <http://www.w3.org/2004/02/skos/core> .
 
 #################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/terms/description
+<http://purl.org/dc/terms/description> rdf:type owl:AnnotationProperty .
+
+
+#################################################################
 #    Object Properties
 #################################################################
 
@@ -36,6 +44,16 @@
 #    Data properties
 #################################################################
 
+###  http://purl.jp/bio/10/clinvar-ontology#cytogenetic
+:cytogenetic rdf:type owl:DatatypeProperty ;
+             rdfs:label "Cytogenetic"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#hgvs
+:hgvs rdf:type owl:DatatypeProperty ;
+      <http://purl.org/dc/terms/description> "HGVS-nomenclature for the description of sequence variants"@en .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#numberOfSubmissions
 :numberOfSubmissions rdf:type owl:DatatypeProperty ;
                      rdfs:domain :ReferenceClinVar ;
@@ -43,11 +61,20 @@
                      rdfs:label "The number of submissions" .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#phenotype
+:phenotype rdf:type owl:DatatypeProperty .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#reportedPhenotypeInfo
 :reportedPhenotypeInfo rdf:type owl:DatatypeProperty ;
                        rdfs:domain :Submission ;
                        rdfs:range rdfs:Literal ;
                        rdfs:label "Reported phenotype information"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#submittedGeneSymbol
+:submittedGeneSymbol rdf:type owl:DatatypeProperty ;
+                     rdfs:label "Submitted gene symbol"@en .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#submittedPhenotypeInfo
@@ -75,6 +102,10 @@
 ###  http://purl.jp/bio/10/clinvar-ontology#CollectionMethod
 :CollectionMethod rdf:type owl:Class ;
                   rdfs:label "Collection method"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#Condition
+:Condition rdf:type owl:Class .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#OriginCount
