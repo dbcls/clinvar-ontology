@@ -34,6 +34,19 @@
              rdfs:range :OriginCount .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#referenceClinver
+:referenceClinver rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf owl:topObjectProperty ;
+                  rdfs:domain :Variation ;
+                  rdfs:range :ReferenceClinVar .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#submission
+:submission rdf:type owl:ObjectProperty ;
+            rdfs:domain :ReferenceClinVar ;
+            rdfs:range :Submission .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#submittedBy
 :submittedBy rdf:type owl:ObjectProperty ;
              rdfs:domain :Submission ;
@@ -51,7 +64,8 @@
 
 ###  http://purl.jp/bio/10/clinvar-ontology#hgvs
 :hgvs rdf:type owl:DatatypeProperty ;
-      <http://purl.org/dc/terms/description> "HGVS-nomenclature for the description of sequence variants"@en .
+      <http://purl.org/dc/terms/description> "HGVS-nomenclature for the description of sequence variants"@en ;
+      rdfs:label "HGVS"@en .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#numberOfSubmissions
@@ -62,7 +76,8 @@
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#phenotype
-:phenotype rdf:type owl:DatatypeProperty .
+:phenotype rdf:type owl:DatatypeProperty ;
+           rdfs:domain :ReferenceClinVar .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#reportedPhenotypeInfo
@@ -109,7 +124,8 @@
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#OriginCount
-:OriginCount rdf:type owl:Class .
+:OriginCount rdf:type owl:Class ;
+             rdfs:label "Origin count"@en .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#ReferenceClinVar
@@ -129,12 +145,18 @@
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#Submitter
-:Submitter rdf:type owl:Class .
+:Submitter rdf:type owl:Class ;
+           rdfs:label "Submitter"@en .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#Variant
 :Variant rdf:type owl:Class ;
          rdfs:label "Variant"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#Variation
+:Variation rdf:type owl:Class ;
+           rdfs:label "Variation"@en .
 
 
 #################################################################
