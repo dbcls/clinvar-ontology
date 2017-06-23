@@ -21,6 +21,11 @@
                       rdfs:range :ClinicalSignificance .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#originCount
+:originCount rdf:type owl:ObjectProperty ;
+             rdfs:range :OriginCount .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#submittedBy
 :submittedBy rdf:type owl:ObjectProperty ;
              rdfs:domain :Submission ;
@@ -70,6 +75,10 @@
 ###  http://purl.jp/bio/10/clinvar-ontology#CollectionMethod
 :CollectionMethod rdf:type owl:Class ;
                   rdfs:label "Collection method"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#OriginCount
+:OriginCount rdf:type owl:Class .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#ReferenceClinVar
@@ -224,6 +233,66 @@ clinicalsignificance:UncertainSignificance rdf:type owl:NamedIndividual ,
 ###  http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#Research
 <http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#Research> rdf:type owl:NamedIndividual ,
                                                                             :CollectionMethod .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/OriginCount#Biparental
+<http://purl.jp/bio/10/clinvar-ontology/OriginCount#Biparental> rdf:type owl:NamedIndividual ,
+                                                                         :OriginCount .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/OriginCount#DeNovo
+<http://purl.jp/bio/10/clinvar-ontology/OriginCount#DeNovo> rdf:type owl:NamedIndividual ,
+                                                                     :OriginCount .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/OriginCount#Germline
+<http://purl.jp/bio/10/clinvar-ontology/OriginCount#Germline> rdf:type owl:NamedIndividual ,
+                                                                       :OriginCount .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/OriginCount#Inherited
+<http://purl.jp/bio/10/clinvar-ontology/OriginCount#Inherited> rdf:type owl:NamedIndividual ,
+                                                                        :OriginCount .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/OriginCount#Maternal
+<http://purl.jp/bio/10/clinvar-ontology/OriginCount#Maternal> rdf:type owl:NamedIndividual ,
+                                                                       :OriginCount .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/OriginCount#NotApplicable
+<http://purl.jp/bio/10/clinvar-ontology/OriginCount#NotApplicable> rdf:type owl:NamedIndividual ,
+                                                                            :OriginCount .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/OriginCount#NotProvided
+<http://purl.jp/bio/10/clinvar-ontology/OriginCount#NotProvided> rdf:type owl:NamedIndividual ,
+                                                                          :OriginCount .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/OriginCount#Paternal
+<http://purl.jp/bio/10/clinvar-ontology/OriginCount#Paternal> rdf:type owl:NamedIndividual ,
+                                                                       :OriginCount .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/OriginCount#Somatic
+<http://purl.jp/bio/10/clinvar-ontology/OriginCount#Somatic> rdf:type owl:NamedIndividual ,
+                                                                      :OriginCount .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/OriginCount#TestedInconclusive
+<http://purl.jp/bio/10/clinvar-ontology/OriginCount#TestedInconclusive> rdf:type owl:NamedIndividual ,
+                                                                                 :OriginCount .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/OriginCount#Uniparental
+<http://purl.jp/bio/10/clinvar-ontology/OriginCount#Uniparental> rdf:type owl:NamedIndividual ,
+                                                                          :OriginCount .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/OriginCount#Unknown
+<http://purl.jp/bio/10/clinvar-ontology/OriginCount#Unknown> rdf:type owl:NamedIndividual ,
+                                                                      :OriginCount .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology/ReviewStatus#CriteriaProvidedConflictingInterpretations
