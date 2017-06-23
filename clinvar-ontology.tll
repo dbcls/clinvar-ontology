@@ -1,0 +1,259 @@
+@prefix : <http://purl.jp/bio/10/clinvar-ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix reviewstatus: <http://purl.jp/bio/10/clinvar-ontology/ReviewStatus#> .
+@prefix clinicalsignificance: <http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#> .
+@base <http://purl.jp/bio/10/clinvar-ontology> .
+
+<http://purl.jp/bio/10/clinvar-ontology> rdf:type owl:Ontology ;
+                                          owl:imports <http://www.w3.org/2004/02/skos/core> .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://purl.jp/bio/10/clinvar-ontology#clinicalSignificance
+:clinicalSignificance rdf:type owl:ObjectProperty ;
+                      rdfs:domain :Submission ;
+                      rdfs:range :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#submittedBy
+:submittedBy rdf:type owl:ObjectProperty ;
+             rdfs:domain :Submission ;
+             rdfs:range :Submitter .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://purl.jp/bio/10/clinvar-ontology#numberOfSubmissions
+:numberOfSubmissions rdf:type owl:DatatypeProperty ;
+                     rdfs:domain :ReferenceClinVar ;
+                     rdfs:range xsd:integer ;
+                     rdfs:label "The number of submissions" .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#reportedPhenotypeInfo
+:reportedPhenotypeInfo rdf:type owl:DatatypeProperty ;
+                       rdfs:domain :Submission ;
+                       rdfs:range rdfs:Literal ;
+                       rdfs:label "Reported phenotype information"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#submittedPhenotypeInfo
+:submittedPhenotypeInfo rdf:type owl:DatatypeProperty ;
+                        rdfs:domain :Submission ;
+                        rdfs:range rdfs:Literal ;
+                        rdfs:label "Submitted phenotype information"@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://purl.jp/bio/10/clinvar-ontology#Allele
+:Allele rdf:type owl:Class ;
+        rdfs:label "Allele"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#ClinicalSignificance
+:ClinicalSignificance rdf:type owl:Class ;
+                      rdfs:label "Clinical significance"@en ;
+                      rdfs:seeAlso <ftp://ftp.ncbi.nlm.nih.gov/pub/GTR/standard_terms/Clinical_significance.txt> .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#CollectionMethod
+:CollectionMethod rdf:type owl:Class ;
+                  rdfs:label "Collection method"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#ReferenceClinVar
+:ReferenceClinVar rdf:type owl:Class ;
+                  rdfs:comment "Reference ClinVar"@en ;
+                  rdfs:label "RCV"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#ReviewStatus
+:ReviewStatus rdf:type owl:Class ;
+              rdfs:label "Review status"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#Submission
+:Submission rdf:type owl:Class ;
+            rdfs:label "Submission"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#Submitter
+:Submitter rdf:type owl:Class .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#Variant
+:Variant rdf:type owl:Class ;
+         rdfs:label "Variant"@en .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#Affects
+clinicalsignificance:Affects rdf:type owl:NamedIndividual ,
+                                      :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#Association
+clinicalsignificance:Association rdf:type owl:NamedIndividual ,
+                                          :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#Benign
+clinicalsignificance:Benign rdf:type owl:NamedIndividual ,
+                                     :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#BenignLikelyBenign
+clinicalsignificance:BenignLikelyBenign rdf:type owl:NamedIndividual ,
+                                                 :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#ConflictingDataFromSubmitters
+clinicalsignificance:ConflictingDataFromSubmitters rdf:type owl:NamedIndividual ,
+                                                            :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#DrugResponse
+clinicalsignificance:DrugResponse rdf:type owl:NamedIndividual ,
+                                           :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#LikelyBenign
+clinicalsignificance:LikelyBenign rdf:type owl:NamedIndividual ,
+                                           :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#LikelyPathogenic
+clinicalsignificance:LikelyPathogenic rdf:type owl:NamedIndividual ,
+                                               :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#NotProvided
+clinicalsignificance:NotProvided rdf:type owl:NamedIndividual ,
+                                          :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#NotReportedForSimpleVariant
+clinicalsignificance:NotReportedForSimpleVariant rdf:type owl:NamedIndividual ,
+                                                          :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#Other
+clinicalsignificance:Other rdf:type owl:NamedIndividual ,
+                                    :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#Pathogenic
+clinicalsignificance:Pathogenic rdf:type owl:NamedIndividual ,
+                                         :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#PathogenicLikelyPathogenic
+clinicalsignificance:PathogenicLikelyPathogenic rdf:type owl:NamedIndividual ,
+                                                         :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#Protective
+clinicalsignificance:Protective rdf:type owl:NamedIndividual ,
+                                         :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#RiskFactor
+clinicalsignificance:RiskFactor rdf:type owl:NamedIndividual ,
+                                         :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#UncertainSignificance
+clinicalsignificance:UncertainSignificance rdf:type owl:NamedIndividual ,
+                                                    :ClinicalSignificance .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#CaseControl
+<http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#CaseControl> rdf:type owl:NamedIndividual ,
+                                                                               :CollectionMethod .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#ClinicalTesting
+<http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#ClinicalTesting> rdf:type owl:NamedIndividual ,
+                                                                                   :CollectionMethod .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#Curation
+<http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#Curation> rdf:type owl:NamedIndividual ,
+                                                                            :CollectionMethod .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#InVitro
+<http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#InVitro> rdf:type owl:NamedIndividual ,
+                                                                           :CollectionMethod .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#InVivo
+<http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#InVivo> rdf:type owl:NamedIndividual ,
+                                                                          :CollectionMethod .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#LiteratureOnly
+<http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#LiteratureOnly> rdf:type owl:NamedIndividual ,
+                                                                                  :CollectionMethod .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#NotProvided
+<http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#NotProvided> rdf:type owl:NamedIndividual ,
+                                                                               :CollectionMethod .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#ReferencePopulation
+<http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#ReferencePopulation> rdf:type owl:NamedIndividual ,
+                                                                                       :CollectionMethod .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#Research
+<http://purl.jp/bio/10/clinvar-ontology/CollectionMethod#Research> rdf:type owl:NamedIndividual ,
+                                                                            :CollectionMethod .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ReviewStatus#CriteriaProvidedConflictingInterpretations
+reviewstatus:CriteriaProvidedConflictingInterpretations rdf:type owl:NamedIndividual ,
+                                                                 :ReviewStatus .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ReviewStatus#CriteriaProvidedSingleSubmitter
+reviewstatus:CriteriaProvidedSingleSubmitter rdf:type owl:NamedIndividual ,
+                                                      :ReviewStatus .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ReviewStatus#NoAssertionCriteriaProvided
+reviewstatus:NoAssertionCriteriaProvided rdf:type owl:NamedIndividual ,
+                                                  :ReviewStatus .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ReviewStatus#NoAssertionProvided
+reviewstatus:NoAssertionProvided rdf:type owl:NamedIndividual ,
+                                          :ReviewStatus .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ReviewStatus#PracticeGuideline
+reviewstatus:PracticeGuideline rdf:type owl:NamedIndividual ,
+                                        :ReviewStatus .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/ReviewStatus#ReviewedByExpertPanel
+reviewstatus:ReviewedByExpertPanel rdf:type owl:NamedIndividual ,
+                                            :ReviewStatus .
+
+
+###  Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi
