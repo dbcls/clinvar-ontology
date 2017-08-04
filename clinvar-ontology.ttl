@@ -43,10 +43,10 @@
            rdfs:range :Assertion .
 
 
-###  http://purl.jp/bio/10/clinvar-ontology#clinical_significance_type
-:clinical_significance_type rdf:type owl:ObjectProperty ;
-                            rdfs:domain :Interpretation ;
-                            rdfs:range :ClinicalSignificanceType .
+###  http://purl.jp/bio/10/clinvar-ontology#clinical_assertion
+:clinical_assertion rdf:type owl:ObjectProperty ;
+                    rdfs:domain :SimpleAllele ;
+                    rdfs:range :ClinicalAssertion .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#clinvar_accession
@@ -67,11 +67,39 @@
                    rdfs:range :CoOccurrenceSet .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#condition
+:condition rdf:type owl:ObjectProperty .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#explanation
+:explanation rdf:type owl:ObjectProperty ;
+             rdfs:domain :SingleInterpretation ;
+             rdfs:range :CommentType .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#functional_consequence
+:functional_consequence rdf:type owl:ObjectProperty ;
+                        rdfs:domain :SimpleAllele ;
+                        rdfs:range :FunctionalConsequence .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#gender
 :gender rdf:type owl:ObjectProperty ;
         rdfs:domain :Sample ;
         rdfs:range :Gender ;
         rdfs:comment "Gender should be used ONLY if explicit values are not available for number of males or females, and there is a need to indicate that the genders in the sample are known."@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#gene
+:gene rdf:type owl:ObjectProperty ;
+      rdfs:domain :SimpleAllele ;
+      rdfs:range :Gene .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#gene_location
+:gene_location rdf:type owl:ObjectProperty ;
+               rdfs:domain :Gene ;
+               rdfs:range :Location .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#gene_ncbi_iri
@@ -91,6 +119,12 @@
                                rdfs:range :GlobalMinorAlleleFrequency .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#haploinsufficiency
+:haploinsufficiency rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Gene ;
+                    rdfs:range :Haploinsufficiency .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#hgvs
 :hgvs rdf:type owl:ObjectProperty ;
       rdfs:domain :SimpleAllele ;
@@ -98,9 +132,22 @@
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#interpretation
-:interpretation rdf:type owl:ObjectProperty ;
-                rdfs:domain :ClinicalAssertion ;
-                rdfs:range :Interpretation .
+:interpretation rdf:type owl:ObjectProperty .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#interpretation_descriptioin
+:interpretation_descriptioin rdf:type owl:ObjectProperty ;
+                             rdfs:domain :SingleInterpretation ;
+                             rdfs:range :ClinicalSignificanceType .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#interpretation_type
+:interpretation_type rdf:type owl:ObjectProperty ;
+                     rdfs:domain :SingleInterpretation .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#location
+:location rdf:type owl:ObjectProperty .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#method
@@ -173,6 +220,12 @@
                    rdfs:range :SequenceLocation .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#sequence_type
+:sequence_type rdf:type owl:ObjectProperty ;
+               rdfs:domain :NucleotideExpression ;
+               rdfs:range :SequenceType .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#severity
 :severity rdf:type owl:ObjectProperty ;
           rdfs:domain :ObservedData ;
@@ -201,6 +254,12 @@
 :trait_type rdf:type owl:ObjectProperty ;
             rdfs:domain :Trait ;
             rdfs:range :TraitType .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#triplosensitivity
+:triplosensitivity rdf:type owl:ObjectProperty ;
+                   rdfs:domain :Gene ;
+                   rdfs:range :Triplosensitivity .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#variation_type_iri
@@ -240,7 +299,8 @@
                          owl:unionOf ( :ClinVarAccession
                                        :SequenceLocation
                                      )
-                       ] .
+                       ] ;
+           rdfs:range xsd:string .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#accession_type
@@ -258,9 +318,22 @@
                 rdfs:comment "RCV accessions aggregate data from each submission. Each submission is assigned an accession of beginning with 'SCV'" .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#alternate_allele
+:alternate_allele rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :SequenceLocation ;
+                  rdfs:range xsd:string .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#alternate_allele_vcf
+:alternate_allele_vcf rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :SequenceLocation ;
+                      rdfs:range xsd:string .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#assembly
 :assembly rdf:type owl:DatatypeProperty ;
-          rdfs:domain :SequenceLocation .
+          rdfs:domain :SequenceLocation ;
+          rdfs:range xsd:string .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#assembly_accession_version
@@ -289,6 +362,12 @@
            rdfs:range xsd:string .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#change
+:change rdf:type owl:DatatypeProperty ;
+        rdfs:domain :NucleotideExpression ;
+        rdfs:range xsd:string .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#chr
 :chr rdf:type owl:DatatypeProperty ;
      rdfs:domain :SequenceLocation ;
@@ -298,7 +377,14 @@
 ###  http://purl.jp/bio/10/clinvar-ontology#cytogenetic_location
 :cytogenetic_location rdf:type owl:DatatypeProperty ;
                       rdfs:domain :Location ;
-                      rdfs:range xsd:string .
+                      rdfs:range xsd:string ;
+                      rdfs:comment "Cytogenetic location is maintained independent of sequence location, and can be submitted or computed from the sequence location"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#data_source
+:data_source rdf:type owl:DatatypeProperty ;
+             rdfs:domain <http://purl.jp/bio/10/clinvar-ontology/CommentType#Comment> ;
+             rdfs:range xsd:string .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#date_last_evaluated
@@ -306,8 +392,9 @@
                      rdfs:domain [ rdf:type owl:Class ;
                                    owl:unionOf ( :ClinVarAccession
                                                  :ClinicalSignificance
-                                                 :Interpretation
+                                                 :Haploinsufficiency
                                                  :TraitSet
+                                                 :Triplosensitivity
                                                )
                                  ] ;
                      rdfs:range xsd:dateTime .
@@ -322,16 +409,22 @@
                                ] .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#description_history
+:description_history rdf:type owl:DatatypeProperty ;
+                     rdfs:domain :Interpretation ;
+                     rdfs:range xsd:string .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#display_start
 :display_start rdf:type owl:DatatypeProperty ;
                rdfs:domain :SequenceLocation ;
-               rdfs:range xsd:integer .
+               rdfs:range xsd:nonNegativeInteger .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#display_stop
 :display_stop rdf:type owl:DatatypeProperty ;
               rdfs:domain :SequenceLocation ;
-              rdfs:range xsd:integer .
+              rdfs:range xsd:positiveInteger .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#ethnicity
@@ -340,9 +433,37 @@
            rdfs:range xsd:string .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#expression
+:expression rdf:type owl:DatatypeProperty ;
+            rdfs:domain :NucleotideExpression ;
+            rdfs:range xsd:string .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#family_history
 :family_history rdf:type owl:DatatypeProperty ;
                 rdfs:range xsd:string .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#for_display
+:for_display rdf:type owl:DatatypeProperty ;
+             rdfs:domain :SequenceLocation ;
+             rdfs:range xsd:boolean .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#for_display_length
+:for_display_length rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :SequenceLocation ;
+                    rdfs:range xsd:boolean .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#functional_consequence_value
+:functional_consequence_value rdf:type owl:DatatypeProperty .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#gene_count
+:gene_count rdf:type owl:DatatypeProperty ;
+            rdfs:domain :SimpleAllele ;
+            rdfs:range xsd:integer .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#gene_full_name
@@ -366,6 +487,13 @@
 :gene_id rdf:type owl:DatatypeProperty ;
          rdfs:domain :Gene ;
          rdfs:range xsd:string .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#gene_property
+:gene_property rdf:type owl:DatatypeProperty ;
+               rdfs:domain :Gene ;
+               rdfs:range xsd:string ;
+               rdfs:comment "Used to set key words for retrieval or display about a gene, such as genes listed by the ACMG guidelines."@en .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#gene_source
@@ -394,10 +522,27 @@
                    rdfs:range xsd:string .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#inner_start
+:inner_start rdf:type owl:DatatypeProperty ;
+             rdfs:domain :SequenceLocation ;
+             rdfs:range xsd:nonNegativeInteger .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#inner_stop
+:inner_stop rdf:type owl:DatatypeProperty ;
+            rdfs:domain :SequenceLocation ;
+            rdfs:range xsd:nonPositiveInteger .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#local_key
 :local_key rdf:type owl:DatatypeProperty ;
            rdfs:domain :ClinVarSubmissionID ;
            rdfs:range xsd:string .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#name
+:name rdf:type owl:DatatypeProperty ;
+      rdfs:range xsd:string .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#num_families
@@ -463,9 +608,33 @@
 :organization_category rdf:type owl:DatatypeProperty .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#other_name_list
+:other_name_list rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :SimpleAllele ;
+                 rdfs:range xsd:string .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#outer_start
+:outer_start rdf:type owl:DatatypeProperty ;
+             rdfs:domain :SequenceLocation ;
+             rdfs:range xsd:nonNegativeInteger .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#outer_stop
+:outer_stop rdf:type owl:DatatypeProperty ;
+            rdfs:domain :SequenceLocation ;
+            rdfs:range xsd:nonPositiveInteger .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#pedigree_id
 :pedigree_id rdf:type owl:DatatypeProperty ;
              rdfs:range xsd:string .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#positive_vcf
+:positive_vcf rdf:type owl:DatatypeProperty ;
+              rdfs:domain :SequenceLocation ;
+              rdfs:range xsd:nonNegativeInteger .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#proband
@@ -474,9 +643,28 @@
          rdfs:range xsd:string .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#protein_change
+:protein_change rdf:type owl:DatatypeProperty ;
+                rdfs:domain :SimpleAllele ;
+                rdfs:range xsd:string ;
+                rdfs:comment "These are the single-letter representations of the protein change."@en .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#protein_chnage
 :protein_chnage rdf:type owl:DatatypeProperty ;
                 rdfs:domain :SimpleAllele .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#reference_allele
+:reference_allele rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :SequenceLocation ;
+                  rdfs:range xsd:string .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#reference_allele_vcf
+:reference_allele_vcf rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :SequenceLocation ;
+                      rdfs:range xsd:string .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#relative_orientation
@@ -501,6 +689,23 @@
                       rdfs:range xsd:string .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#sequence_accession
+:sequence_accession rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :NucleotideExpression ;
+                    rdfs:range xsd:string .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#sequence_accession_version
+:sequence_accession_version rdf:type owl:DatatypeProperty ;
+                            rdfs:domain :NucleotideExpression .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#sequence_version
+:sequence_version rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :NucleotideExpression ;
+                  rdfs:range xsd:string .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#species
 :species rdf:type owl:DatatypeProperty ;
          rdfs:domain :Sample .
@@ -509,23 +714,47 @@
 ###  http://purl.jp/bio/10/clinvar-ontology#start
 :start rdf:type owl:DatatypeProperty ;
        rdfs:domain :SequenceLocation ;
-       rdfs:range xsd:integer .
+       rdfs:range xsd:nonNegativeInteger .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#stop
 :stop rdf:type owl:DatatypeProperty ;
       rdfs:domain :SequenceLocation ;
-      rdfs:range xsd:integer .
+      rdfs:range xsd:positiveInteger .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#strain
 :strain rdf:type owl:DatatypeProperty .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#strand
+:strand rdf:type owl:DatatypeProperty ;
+        rdfs:domain :SequenceLocation ;
+        rdfs:range xsd:string .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#submitted
+:submitted rdf:type owl:DatatypeProperty ;
+           rdfs:domain :NucleotideExpression ;
+           rdfs:range xsd:string .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#target_id
+:target_id rdf:type owl:DatatypeProperty ;
+           rdfs:domain :Condition ;
+           rdfs:range xsd:string .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#tissue
 :tissue rdf:type owl:DatatypeProperty ;
         rdfs:domain :Sample ;
         rdfs:range xsd:string .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#variation_length
+:variation_length rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :SequenceLocation ;
+                  rdfs:range xsd:positiveInteger .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#variation_type
@@ -588,11 +817,6 @@
 ###  http://purl.jp/bio/10/clinvar-ontology#ClinicalAssertion
 :ClinicalAssertion rdf:type owl:Class ;
                    rdfs:subClassOf [ rdf:type owl:Restriction ;
-                                     owl:onProperty :interpretation ;
-                                     owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                     owl:onClass :Interpretation
-                                   ] ,
-                                   [ rdf:type owl:Restriction ;
                                      owl:onProperty :clinvar_accession ;
                                      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onClass :ClinVarAccession
@@ -613,6 +837,24 @@
 
 ###  http://purl.jp/bio/10/clinvar-ontology#CommentType
 :CommentType rdf:type owl:Class .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#Condition
+:Condition rdf:type owl:Class ;
+           rdfs:subClassOf [ rdf:type owl:Restriction ;
+                             owl:onProperty :name ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onDataRange xsd:string
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :target_id ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onDataRange xsd:string
+                           ] .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#DescriptionHistory
+:DescriptionHistory rdf:type owl:Class .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#FamilyData
@@ -645,12 +887,91 @@
             rdfs:comment "Structure to describe attributes of any family data in an observation. If the details of the number of families and the de-identified pedigree id are not available, use FamilyHistory to describe what type of family data is available. Can also be used to report 'Yes' or 'No' if there are no more details."@en .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#FunctionalConsequence
+:FunctionalConsequence rdf:type owl:Class ;
+                       rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                         owl:onProperty :functional_consequence ;
+                                         owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                         owl:onClass :FunctionalConsequence
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty <http://purl.jp/bio/10/clinvar-ontology/CommentType#comment> ;
+                                         owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                         owl:onClass <http://purl.jp/bio/10/clinvar-ontology/CommentType#Comment>
+                                       ] ,
+                                       [ rdf:type owl:Restriction ;
+                                         owl:onProperty :functional_consequence_value ;
+                                         owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                         owl:onDataRange xsd:string
+                                       ] .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#Gender
 :Gender rdf:type owl:Class .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#Gene
-:Gene rdf:type owl:Class .
+:Gene rdf:type owl:Class ;
+      rdfs:subClassOf [ rdf:type owl:Restriction ;
+                        owl:onProperty :gene_location ;
+                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                        owl:onClass :Location
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :gene_relationship_type ;
+                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                        owl:onClass :RelationshipType
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :haploinsufficiency ;
+                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                        owl:onClass :Haploinsufficiency
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :triplosensitivity ;
+                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                        owl:onClass :Triplosensitivity
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :haploinsufficiency ;
+                        owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onClass :Haploinsufficiency
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :triplosensitivity ;
+                        owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onClass :Triplosensitivity
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :gene_full_name ;
+                        owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onDataRange xsd:string
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :gene_hgnc_id ;
+                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                        owl:onDataRange xsd:string
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :gene_hgnc_iri ;
+                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                        owl:onDataRange xsd:string
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :gene_property ;
+                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                        owl:onDataRange xsd:dateTime
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :gene_source ;
+                        owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onDataRange xsd:string
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :gene_symbol ;
+                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                        owl:onDataRange xsd:string
+                      ] .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#Genotype
@@ -662,7 +983,46 @@
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#HGVS
-:HGVS rdf:type owl:Class .
+:HGVS rdf:type owl:Class ;
+      rdfs:subClassOf [ rdf:type owl:Restriction ;
+                        owl:onProperty :nucleotide_expression ;
+                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                        owl:onClass :NucleotideExpression
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :protein_expression ;
+                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                        owl:onClass :ProteinExpression
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :sequence_type ;
+                        owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onClass :SequenceType
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :nucleotide_expression ;
+                        owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onClass :NucleotideExpression
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :protein_expression ;
+                        owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onClass :ProteinExpression
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :assembly ;
+                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                        owl:onDataRange xsd:string
+                      ] .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#Haploinsufficiency
+:Haploinsufficiency rdf:type owl:Class ;
+                    rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                      owl:onProperty :date_last_evaluated ;
+                                      owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                      owl:onDataRange xsd:dateTime
+                                    ] .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#Haplotype
@@ -670,11 +1030,46 @@
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#Interpretation
-:Interpretation rdf:type owl:Class .
+:Interpretation rdf:type owl:Class ;
+                rdfs:subClassOf :SingleInterpretation ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :condition ;
+                                  owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                  owl:onClass :Condition
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :number_of_submissions ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onDataRange xsd:nonNegativeInteger
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty :number_of_submitters ;
+                                  owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                  owl:onDataRange xsd:nonNegativeInteger
+                                ] .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#InterpretationType
+:InterpretationType rdf:type owl:Class .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#Location
 :Location rdf:type owl:Class ;
+          rdfs:subClassOf [ rdf:type owl:Restriction ;
+                            owl:onProperty :sequence_location ;
+                            owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                            owl:onClass :SequenceLocation
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :cytogenetic_location ;
+                            owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                            owl:onDataRange xsd:string
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :cytogenetic_location ;
+                            owl:minQualifiedCardinality "4"^^xsd:nonNegativeInteger ;
+                            owl:onDataRange xsd:string
+                          ] ;
           rdfs:comment "There can be multiple types of location, and the locations may have identifiers in other databases"@en .
 
 
@@ -687,7 +1082,46 @@
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#NucleotideExpression
-:NucleotideExpression rdf:type owl:Class .
+:NucleotideExpression rdf:type owl:Class ;
+                      rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                        owl:onProperty :sequence_type ;
+                                        owl:allValuesFrom :SequenceType
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty :assembly ;
+                                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                        owl:onDataRange xsd:string
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty :change ;
+                                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                        owl:onDataRange xsd:string
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty :expression ;
+                                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                        owl:onDataRange xsd:string
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty :sequence_accession ;
+                                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                        owl:onDataRange xsd:string
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty :sequence_accession_version ;
+                                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                        owl:onDataRange xsd:string
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty :sequence_version ;
+                                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                        owl:onDataRange xsd:string
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty :submitted ;
+                                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                        owl:onDataRange xsd:string
+                                      ] .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#ObservationSet
@@ -731,7 +1165,116 @@
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#SequenceLocation
-:SequenceLocation rdf:type owl:Class .
+:SequenceLocation rdf:type owl:Class ;
+                  rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                    owl:onProperty :accession ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:string
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :alternate_allele ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:string
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :alternate_allele_vcf ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:string
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :assembly ;
+                                    owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:string
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :assembly_accession_version ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:string
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :assembly_status ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:string
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :display_start ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:nonNegativeInteger
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :display_stop ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:positiveInteger
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :for_display ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:boolean
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :for_display_length ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:boolean
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :inner_start ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:nonNegativeInteger
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :inner_stop ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:positiveInteger
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :outer_start ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:nonNegativeInteger
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :outer_stop ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:positiveInteger
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :positive_vcf ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:string
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :reference_allele ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:string
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :reference_allele_vcf ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:string
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :start ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:nonNegativeInteger
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :stop ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:positiveInteger
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :strand ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:string
+                                  ] ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :variation_length ;
+                                    owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                    owl:onDataRange xsd:positiveInteger
+                                  ] .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#SequenceType
+:SequenceType rdf:type owl:Class .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#Severity
@@ -740,7 +1283,81 @@
 
 ###  http://purl.jp/bio/10/clinvar-ontology#SimpleAllele
 :SimpleAllele rdf:type owl:Class ;
+              rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                owl:onProperty :gene ;
+                                owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                owl:onClass :Gene
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :hgvs ;
+                                owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                owl:onClass :HGVS
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :interpretation ;
+                                owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                owl:onClass :Interpretation
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :location ;
+                                owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                owl:onClass :Location
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <http://purl.jp/bio/10/clinvar-ontology/CommentType#comment> ;
+                                owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                owl:onClass <http://purl.jp/bio/10/clinvar-ontology/CommentType#Comment>
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :gene_count ;
+                                owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                owl:onDataRange xsd:integer
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :protein_change ;
+                                owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                owl:onDataRange xsd:string
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty :variation_type ;
+                                owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                owl:onDataRange xsd:string
+                              ] ;
               rdfs:comment "This is a record per variant (Measure/@ID,AlleleID)"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology#SingleInterpretation
+:SingleInterpretation rdf:type owl:Class ;
+                      rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                        owl:onProperty :explanation ;
+                                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                        owl:onClass <http://purl.jp/bio/10/clinvar-ontology/CommentType#Explanation>
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty :interpretation_descriptioin ;
+                                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                        owl:onClass :CommentType
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty :interpretation_type ;
+                                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                        owl:onClass :InterpretationType
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty :explanation ;
+                                        owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onClass <http://purl.jp/bio/10/clinvar-ontology/CommentType#Explanation>
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty :interpretation_descriptioin ;
+                                        owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                        owl:onClass :CommentType
+                                      ] ,
+                                      [ rdf:type owl:Restriction ;
+                                        owl:onProperty :date_last_evaluated ;
+                                        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                        owl:onDataRange xsd:dateTime
+                                      ] .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology#SubmitterDescription
@@ -780,6 +1397,15 @@
 :TraitType rdf:type owl:Class .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology#Triplosensitivity
+:Triplosensitivity rdf:type owl:Class ;
+                   rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                     owl:onProperty :date_last_evaluated ;
+                                     owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                                     owl:onDataRange xsd:dateTime
+                                   ] .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology#Variation
 :Variation rdf:type owl:Class .
 
@@ -789,11 +1415,20 @@
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology/CommentType#Comment
-<http://purl.jp/bio/10/clinvar-ontology/CommentType#Comment> rdf:type owl:Class .
+<http://purl.jp/bio/10/clinvar-ontology/CommentType#Comment> rdf:type owl:Class ;
+                                                             rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty <http://purl.jp/bio/10/clinvar-ontology/CommentType#comment_type> ;
+                                                                               owl:allValuesFrom :CommentType
+                                                                             ] ,
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty :data_source ;
+                                                                               owl:allValuesFrom xsd:string
+                                                                             ] .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology/CommentType#Explanation
 <http://purl.jp/bio/10/clinvar-ontology/CommentType#Explanation> rdf:type owl:Class ;
+                                                                 rdfs:subClassOf <http://purl.jp/bio/10/clinvar-ontology/CommentType#Comment> ;
                                                                  rdfs:comment "Explanation is used only when the description is 'conflicting data from submitters' The element summarizes the conflict."@en .
 
 
@@ -1070,6 +1705,24 @@
                                                       rdfs:label "mixied"@en .
 
 
+###  http://purl.jp/bio/10/clinvar-ontology/InterpretationType#Association
+<http://purl.jp/bio/10/clinvar-ontology/InterpretationType#Association> rdf:type owl:NamedIndividual ,
+                                                                                 :InterpretationType ;
+                                                                        rdfs:comment "Association"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/InterpretationType#ClinicalSignificance
+<http://purl.jp/bio/10/clinvar-ontology/InterpretationType#ClinicalSignificance> rdf:type owl:NamedIndividual ,
+                                                                                          :InterpretationType ;
+                                                                                 rdfs:comment "Clinical significance"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/InterpretationType#FunctionalStatus
+<http://purl.jp/bio/10/clinvar-ontology/InterpretationType#FunctionalStatus> rdf:type owl:NamedIndividual ,
+                                                                                      :InterpretationType ;
+                                                                             rdfs:comment "Functional status"@en .
+
+
 ###  http://purl.jp/bio/10/clinvar-ontology/MethodType#CaseControl
 <http://purl.jp/bio/10/clinvar-ontology/MethodType#CaseControl> rdf:type owl:NamedIndividual ,
                                                                          :MethodType ;
@@ -1221,43 +1874,43 @@
 
 ###  http://purl.jp/bio/10/clinvar-ontology/RelationshipType#AssertedButNotComputed
 <http://purl.jp/bio/10/clinvar-ontology/RelationshipType#AssertedButNotComputed> rdf:type owl:NamedIndividual ,
-                                                                                          :Gene ;
+                                                                                          :RelationshipType ;
                                                                                  rdfs:label "asserted, but not computed"@en .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology/RelationshipType#GeneOverlappedByVariant
 <http://purl.jp/bio/10/clinvar-ontology/RelationshipType#GeneOverlappedByVariant> rdf:type owl:NamedIndividual ,
-                                                                                           :Gene ;
+                                                                                           :RelationshipType ;
                                                                                   rdfs:label "gene overlapped by variant"@en .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology/RelationshipType#VariantNearGeneDownstream
 <http://purl.jp/bio/10/clinvar-ontology/RelationshipType#VariantNearGeneDownstream> rdf:type owl:NamedIndividual ,
-                                                                                             :Gene ;
+                                                                                             :RelationshipType ;
                                                                                     rdfs:label "variant near gene, downstream"@en .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology/RelationshipType#VariantNearGeneUpstream
 <http://purl.jp/bio/10/clinvar-ontology/RelationshipType#VariantNearGeneUpstream> rdf:type owl:NamedIndividual ,
-                                                                                           :Gene ;
+                                                                                           :RelationshipType ;
                                                                                   rdfs:label "variant near gene, upstream"@en .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology/RelationshipType#VariantWithinGene
 <http://purl.jp/bio/10/clinvar-ontology/RelationshipType#VariantWithinGene> rdf:type owl:NamedIndividual ,
-                                                                                     :Gene ;
+                                                                                     :RelationshipType ;
                                                                             rdfs:label "variant within gene"@en .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology/RelationshipType#WithinMultipleGenesByOverlap
 <http://purl.jp/bio/10/clinvar-ontology/RelationshipType#WithinMultipleGenesByOverlap> rdf:type owl:NamedIndividual ,
-                                                                                                :Gene ;
+                                                                                                :RelationshipType ;
                                                                                        rdfs:label "within multiple genes by overlap"@en .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology/RelationshipType#WithinSingleGene
 <http://purl.jp/bio/10/clinvar-ontology/RelationshipType#WithinSingleGene> rdf:type owl:NamedIndividual ,
-                                                                                    :Gene ;
+                                                                                    :RelationshipType ;
                                                                            rdfs:label "within single gene"@en .
 
 
@@ -1324,6 +1977,42 @@
                                                                                              :ReviewStatus ;
                                                                                     rdfs:comment "This instance, \"reviewed by professional society\", is added for backward compatibility from clinvar_public.xsd"@en ,
                                                                                                  "reviewed by professional society"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/SequenceType#Coding
+<http://purl.jp/bio/10/clinvar-ontology/SequenceType#Coding> rdf:type owl:NamedIndividual ,
+                                                                      :SequenceType ;
+                                                             rdfs:comment "coding"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/SequenceType#Genomic
+<http://purl.jp/bio/10/clinvar-ontology/SequenceType#Genomic> rdf:type owl:NamedIndividual ,
+                                                                       :SequenceType ;
+                                                              rdfs:comment "genomic"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/SequenceType#GenomicRefSeqGene
+<http://purl.jp/bio/10/clinvar-ontology/SequenceType#GenomicRefSeqGene> rdf:type owl:NamedIndividual ,
+                                                                                 :SequenceType ;
+                                                                        rdfs:comment "genomic, RefSeqGene"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/SequenceType#GenomicTopLevel
+<http://purl.jp/bio/10/clinvar-ontology/SequenceType#GenomicTopLevel> rdf:type owl:NamedIndividual ,
+                                                                               :SequenceType ;
+                                                                      rdfs:comment "genomic, top-level"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/SequenceType#NonCoding
+<http://purl.jp/bio/10/clinvar-ontology/SequenceType#NonCoding> rdf:type owl:NamedIndividual ,
+                                                                         :SequenceType ;
+                                                                rdfs:comment "non-coding"@en .
+
+
+###  http://purl.jp/bio/10/clinvar-ontology/SequenceType#Protein
+<http://purl.jp/bio/10/clinvar-ontology/SequenceType#Protein> rdf:type owl:NamedIndividual ,
+                                                                       :SequenceType ;
+                                                              rdfs:comment "protein"@en .
 
 
 ###  http://purl.jp/bio/10/clinvar-ontology/Severity#Mild
