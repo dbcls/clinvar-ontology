@@ -5,6 +5,26 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
+<http://med2rdf.org/ontology/med2rdf#additional_submitters>
+    a owl:ObjectProperty ;
+    rdfs:domain :ClinicalAssertion ;
+    rdfs:range :SubmitterDescription ;
+    rdfs:subPropertyOf owl:topObjectProperty .
+
+<http://med2rdf.org/ontology/med2rdf/local_key_is_submitted>
+    a owl:DatatypeProperty ;
+    rdfs:domain :ClinVarSubmissionID .
+
+<http://med2rdf.org/ontology/med2rdf/position_vcf>
+    a owl:DatatypeProperty ;
+    rdfs:domain :SequenceLocation ;
+    rdfs:range xsd:nonNegativeInteger .
+
+<http://med2rdf.org/ontology/med2rdf/submitted_assembly>
+    a owl:DatatypeProperty ;
+    rdfs:domain :ClinVarSubmissionID ;
+    rdfs:range xsd:string .
+
 <http://purl.jp/bio/10/clinvar-ontology>
     <http://purl.org/dc/elements/1.1/creator> "Shuichi Kawashima"@en, "Toshiaki Katayama"@en ;
     <http://purl.org/dc/elements/1.1/description> "ClinVar ontology is developed for converting the allele based version of ClinVar XML into the RDF. Primary repositry is https://github.com/dbcls/clinvar-ontology ."@en ;
@@ -25,9 +45,13 @@
     a owl:Class .
 
 :AlleleDescSet
-    a owl:Class .
+    a owl:Class ;
+    rdfs:comment "This is to be used within co-occurrence set"@en .
 
 :AlleleFrequency
+    a owl:Class .
+
+:AlleleOrigin
     a owl:Class .
 
 :Assertion
@@ -39,7 +63,17 @@
 :AttributeSet
     a owl:Class .
 
+:Biparental
+    a :AlleleOrigin, owl:NamedIndividual ;
+    rdfs:label "biparental"@en .
+
 :Citation
+    a owl:Class .
+
+:ClinAsserTraitType
+    a owl:Class .
+
+:ClinVarAccession
     a owl:Class .
 
 :ClinVarSubmissionID
@@ -48,7 +82,12 @@
         a owl:Restriction ;
         owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
         owl:onDataRange xsd:string ;
-        owl:onProperty :localKeyIsSubmitted
+        owl:onProperty <http://med2rdf.org/ontology/med2rdf/local_key_is_submitted>
+    ], [
+        a owl:Restriction ;
+        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+        owl:onDataRange xsd:string ;
+        owl:onProperty <http://med2rdf.org/ontology/med2rdf/submitted_assembly>
     ], [
         a owl:Restriction ;
         owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
@@ -56,12 +95,7 @@
         owl:onProperty :submission_title
     ], [
         a owl:Restriction ;
-        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
         owl:onDataRange xsd:string ;
-        owl:onProperty :submittedAssembly
-    ], [
-        a owl:Restriction ;
-        owl:onDataRange owl:rational ;
         owl:onProperty :local_key ;
         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
     ] .
@@ -152,8 +186,19 @@
         owl:onProperty :custom_assertion_score_type
     ] .
 
+:DeNovo
+    a :AlleleOrigin, owl:NamedIndividual ;
+    rdfs:label "de novo"@en .
+
+:DeletedSCV
+    a owl:Class .
+
 :DescriptionHistory
     a owl:Class .
+
+:ExperimentallyGenerated
+    a :AlleleOrigin, owl:NamedIndividual ;
+    rdfs:label "experimentally generated"@en .
 
 :FamilyData
     a owl:Class ;
@@ -241,11 +286,6 @@
         owl:onProperty :triplosensitivity
     ], [
         a owl:Restriction ;
-        owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-        owl:onDataRange xsd:string ;
-        owl:onProperty :gene_full_name
-    ], [
-        a owl:Restriction ;
         owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
         owl:onDataRange xsd:string ;
         owl:onProperty :gene_hgnc_id
@@ -254,11 +294,6 @@
         owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
         owl:onDataRange xsd:string ;
         owl:onProperty :gene_hgnc_iri
-    ], [
-        a owl:Restriction ;
-        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
-        owl:onDataRange xsd:dateTime ;
-        owl:onProperty :gene_property
     ], [
         a owl:Restriction ;
         owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
@@ -271,11 +306,18 @@
         owl:onProperty :gene_symbol
     ] .
 
+:GeneSCV
+    a owl:Class .
+
 :Genotype
     a owl:Class .
 
 :GenotypeSCV
     a owl:Class .
+
+:Germline
+    a :AlleleOrigin, owl:NamedIndividual ;
+    rdfs:label "germline"@en .
 
 :GlobalMinorAlleleFrequency
     a owl:Class .
@@ -320,7 +362,7 @@
     rdfs:subClassOf [
         a owl:Restriction ;
         owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
-        owl:onDataRange xsd:dateTime ;
+        owl:onDataRange xsd:date ;
         owl:onProperty :date_last_evaluated
     ] .
 
@@ -338,7 +380,14 @@
     a owl:Class .
 
 :IncludedRecord
-    a :RecordType, owl:NamedIndividual .
+    a :RecordType, owl:Class, owl:NamedIndividual .
+
+:Indication
+    a owl:Class .
+
+:Inherited
+    a :AlleleOrigin, owl:NamedIndividual ;
+    rdfs:label "inherited"@en .
 
 :Interpretation
     a owl:Class ;
@@ -362,8 +411,11 @@
 :InterpretationType
     a owl:Class .
 
+:InterpretedCondition
+    a owl:Class .
+
 :InterpretedRecord
-    a :RecordType, owl:NamedIndividual .
+    a :RecordType, owl:Class, owl:NamedIndividual .
 
 :InterpretedVariation
     a owl:Class .
@@ -388,11 +440,39 @@
         owl:onProperty :cytogenetic_location
     ] .
 
+:MappingType
+    a owl:Class .
+
+:Maternal
+    a :AlleleOrigin, owl:NamedIndividual ;
+    rdfs:label "maternal"@en .
+
 :Method
+    a owl:Class .
+
+:MethodAttribute
+    a owl:Class .
+
+:MethodAttributeType
     a owl:Class .
 
 :MethodType
     a owl:Class .
+
+:MolecularConsequence
+    a owl:Class .
+
+:NotApplicable
+    a :AlleleOrigin, owl:NamedIndividual ;
+    rdfs:label "not applicable"@en .
+
+:NotProvided
+    a :AlleleOrigin, owl:NamedIndividual ;
+    rdfs:label "not provided"@en .
+
+:NotReported
+    a :AlleleOrigin, owl:NamedIndividual ;
+    rdfs:label "not-reported"@en .
 
 :NucleotideExpression
     a owl:Class ;
@@ -437,17 +517,31 @@
         owl:onProperty :submitted
     ] .
 
-:ObservationSet
+:ObsMethodAttribute
+    a owl:Class .
+
+:ObsMethodAttributeType
     a owl:Class .
 
 :ObservedData
     a owl:Class .
 
-:ObservedIn
+:ObservedDataAttributeType
     a owl:Class .
+
+:ObservedIn
+    a owl:Class ;
+    rdfs:comment "Documents in what populations or samples an allele or genotype has been observed relative to the described trait. Summary observations can be registered per submitted assertion, grouped by common citation, study type, origin, ethnicity, tissue, cell line, and species data. Not all options are valid per study type, but these will not be validated in the xsd."@en .
 
 :Origin
     a owl:Class .
+
+:OtherName
+    a owl:Class .
+
+:Paternal
+    a :AlleleOrigin, owl:NamedIndividual ;
+    rdfs:label "paternal"@en .
 
 :PhenotypeSetType
     a owl:Class .
@@ -487,7 +581,7 @@
         owl:onProperty :version
     ] .
 
-:RCVInterpretedCondition
+:RCVList
     a owl:Class .
 
 :RecordStatus
@@ -499,17 +593,59 @@
 :RelationshipType
     a owl:Class .
 
+:Replaced
+    a owl:Class .
+
+:ResultType
+    a owl:Class .
+
 :ReviewStatus
     <http://purl.org/dc/elements/1.1/description> "The aggregate review status based on all submissions for this record."@en ;
     a owl:Class .
 
+:SCV
+    a owl:Class .
+
 :Sample
+    a owl:Class .
+
+:SampleDescription
     a owl:Class .
 
 :SequenceLocation
     a owl:Class ;
     rdfs:comment "Location on a defined sequence, with reference and alternate allele, and start /stop values depending on the specificity with which the variant location is known. The number system of offset 1, and right-justified to be consistent with HGVS location data"@en ;
     rdfs:subClassOf [
+        a owl:Restriction ;
+        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+        owl:onDataRange xsd:nonNegativeInteger ;
+        owl:onProperty <http://med2rdf.org/ontology/med2rdf/position_vcf>
+    ], [
+        a owl:Restriction ;
+        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+        owl:onDataRange xsd:string ;
+        owl:onProperty :accession
+    ], [
+        a owl:Restriction ;
+        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+        owl:onDataRange xsd:string ;
+        owl:onProperty :alternate_allele
+    ], [
+        a owl:Restriction ;
+        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+        owl:onDataRange xsd:string ;
+        owl:onProperty :alternate_allele_vcf
+    ], [
+        a owl:Restriction ;
+        owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+        owl:onDataRange xsd:string ;
+        owl:onProperty :assembly
+    ], [
+        a owl:Restriction ;
+        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+        owl:onDataRange xsd:string ;
+        owl:onProperty :assembly_accession_version
+    ], [
         a owl:Restriction ;
         owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
         owl:onDataRange xsd:string ;
@@ -558,11 +694,6 @@
         a owl:Restriction ;
         owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
         owl:onDataRange xsd:string ;
-        owl:onProperty :positive_vcf
-    ], [
-        a owl:Restriction ;
-        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
-        owl:onDataRange xsd:string ;
         owl:onProperty :reference_allele
     ], [
         a owl:Restriction ;
@@ -589,31 +720,6 @@
         owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
         owl:onDataRange xsd:positiveInteger ;
         owl:onProperty :variation_length
-    ], [
-        a owl:Restriction ;
-        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
-        owl:onDataRange xsd:string ;
-        owl:onProperty :accession
-    ], [
-        a owl:Restriction ;
-        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
-        owl:onDataRange xsd:string ;
-        owl:onProperty :alternate_allele
-    ], [
-        a owl:Restriction ;
-        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
-        owl:onDataRange xsd:string ;
-        owl:onProperty :alternate_allele_vcf
-    ], [
-        a owl:Restriction ;
-        owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-        owl:onDataRange xsd:string ;
-        owl:onProperty :assembly
-    ], [
-        a owl:Restriction ;
-        owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
-        owl:onDataRange xsd:string ;
-        owl:onProperty :assembly_accession_version
     ] .
 
 :SequenceType
@@ -710,6 +816,19 @@
         owl:onProperty :date_last_evaluated
     ] .
 
+:Software
+    a owl:Class .
+
+:Somatic
+    a :AlleleOrigin, owl:NamedIndividual ;
+    rdfs:label "somatic"@en .
+
+:SourceType
+    a owl:Class .
+
+:SubmittedInterpretationList
+    a owl:Class .
+
 :SubmitterDescription
     a owl:Class ;
     rdfs:comment "A structure to support reporting the name of a submitter, its organization id, and its abbreviation and type"@en ;
@@ -737,7 +856,23 @@
 :SubmitterType
     a owl:Class .
 
+:Suspect
+    a owl:Class .
+
+:Symbol
+    a owl:Class .
+
+:TestedInconclusive
+    a :AlleleOrigin, owl:NamedIndividual ;
+    rdfs:label "tested-inconclusive"@en .
+
 :Trait
+    a owl:Class .
+
+:TraitMapping
+    a owl:Class .
+
+:TraitName
     a owl:Class .
 
 :TraitSet
@@ -746,20 +881,29 @@
 :TraitSetType
     a owl:Class .
 
-:TraitType
-    a owl:Class .
-
 :Triplosensitivity
     a owl:Class ;
     rdfs:subClassOf [
         a owl:Restriction ;
         owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
-        owl:onDataRange xsd:dateTime ;
+        owl:onDataRange xsd:date ;
         owl:onProperty :date_last_evaluated
     ] .
 
+:Uniparental
+    a :AlleleOrigin, owl:NamedIndividual ;
+    rdfs:label "uniparental"@en .
+
+:Unknown
+    a :AlleleOrigin, owl:NamedIndividual ;
+    rdfs:label "unknown"@en .
+
 :Variation
     a owl:Class .
+
+:VariationArchive
+    a owl:Class ;
+    rdfs:comment "This element groups the set of data specific to a VariationArchive record, namely the summary data of what has been submitted about a VariationID AND for Interpreted records only, the content each submission (SCV) provided."@en .
 
 :VariationType
     a owl:Class .
@@ -771,8 +915,12 @@
     a owl:DatatypeProperty ;
     rdfs:domain [
         a owl:Class ;
-        owl:unionOf (:RCVAccession
+        owl:unionOf (:DeletedSCV
+            :InterpretedVariation
+            :RCVAccession
+            :SCV
             :SequenceLocation
+            :VariationArchive
         )
     ] ;
     rdfs:range xsd:string .
@@ -802,10 +950,42 @@
     rdfs:domain :Sample ;
     rdfs:range :Age .
 
+:allele
+    a owl:ObjectProperty ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:ClinicalAssertion
+            :IncludedRecord
+            :InterpretedRecord
+        )
+    ] ;
+    rdfs:range [
+        a owl:Class ;
+        owl:unionOf (:Genotype
+            :Haplotype
+            :SimpleAllele
+            :SimpleAlleleSCV
+        )
+    ] .
+
+:allele_desc_set
+    a owl:ObjectProperty ;
+    rdfs:domain :CoOccurrenceSet ;
+    rdfs:range :AlleleDescSet .
+
 :allele_frequency
     a owl:ObjectProperty ;
     rdfs:domain :SimpleAllele ;
     rdfs:range :AlleleFrequency .
+
+:allele_id
+    a owl:DatatypeProperty ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:SimpleAllele
+            :SimpleAlleleSCV
+        )
+    ] .
 
 :alternate_allele
     a owl:DatatypeProperty ;
@@ -819,7 +999,13 @@
 
 :assembly
     a owl:DatatypeProperty ;
-    rdfs:domain :SequenceLocation ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:HGVS
+            :NucleotideExpression
+            :SequenceLocation
+        )
+    ] ;
     rdfs:range xsd:string .
 
 :assembly_accession_version
@@ -867,14 +1053,35 @@
     rdfs:domain :SequenceLocation ;
     rdfs:range xsd:string .
 
+:citation_text
+    a owl:DatatypeProperty ;
+    rdfs:domain :Citation ;
+    rdfs:range xsd:string .
+
+:clin_asser_trait_type
+    a owl:ObjectProperty ;
+    rdfs:domain :TraitSet ;
+    rdfs:range :ClinAsserTraitType .
+
 :clinical_assertion
     a owl:ObjectProperty ;
     rdfs:domain :SimpleAllele ;
     rdfs:range :ClinicalAssertion .
 
+:clinical_assertion_id
+    a owl:DatatypeProperty ;
+    rdfs:domain :TraitMapping ;
+    rdfs:range xsd:string .
+
+:clinical_sifnificance
+    a owl:ObjectProperty ;
+    rdfs:domain :AlleleDescSet ;
+    rdfs:range :ClinicalSignificance .
+
 :clinvar_accession
     a owl:ObjectProperty ;
-    rdfs:domain :SimpleAllele .
+    rdfs:domain :ClinicalAssertion ;
+    rdfs:range :ClinVarAccession .
 
 :clinvar_submission_id
     a owl:ObjectProperty ;
@@ -888,6 +1095,11 @@
 
 :condition
     a owl:ObjectProperty .
+
+:count
+    a owl:DatatypeProperty ;
+    rdfs:domain :CoOccurrenceSet ;
+    rdfs:range xsd:integer .
 
 :custom_assertion_score
     a owl:ObjectProperty ;
@@ -909,6 +1121,11 @@
     rdfs:domain <http://purl.jp/bio/10/clinvar-ontology/CommentType#Comment> ;
     rdfs:range xsd:string .
 
+:date_deleted
+    a owl:DatatypeProperty ;
+    rdfs:domain :DeletedSCV ;
+    rdfs:range xsd:date .
+
 :date_last_evaluated
     a owl:DatatypeProperty ;
     rdfs:domain [
@@ -920,7 +1137,7 @@
             :Triplosensitivity
         )
     ] ;
-    rdfs:range xsd:dateTime .
+    rdfs:range xsd:date .
 
 :date_last_updated
     a owl:DatatypeProperty ;
@@ -932,9 +1149,9 @@
     ] .
 
 :description_history
-    a owl:DatatypeProperty ;
+    a owl:DatatypeProperty, owl:ObjectProperty ;
     rdfs:domain :Interpretation ;
-    rdfs:range xsd:string .
+    rdfs:range :DescriptionHistory, xsd:string .
 
 :display_start
     a owl:DatatypeProperty ;
@@ -961,8 +1178,14 @@
     rdfs:domain :NucleotideExpression ;
     rdfs:range xsd:string .
 
+:family_data
+    a owl:ObjectProperty ;
+    rdfs:domain :Sample ;
+    rdfs:range :FamilyData .
+
 :family_history
     a owl:DatatypeProperty ;
+    rdfs:domain :FamilyData ;
     rdfs:range xsd:string .
 
 :for_display
@@ -974,6 +1197,11 @@
     a owl:DatatypeProperty ;
     rdfs:domain :SequenceLocation ;
     rdfs:range xsd:boolean .
+
+:full_name
+    a owl:DatatypeProperty ;
+    rdfs:domain :Gene ;
+    rdfs:range xsd:string .
 
 :functional_consequence
     a owl:ObjectProperty ;
@@ -999,11 +1227,6 @@
     rdfs:domain :SimpleAllele ;
     rdfs:range xsd:integer .
 
-:gene_full_name
-    a owl:DatatypeProperty ;
-    rdfs:domain :Gene ;
-    rdfs:range xsd:string .
-
 :gene_hgnc_id
     a owl:DatatypeProperty ;
     rdfs:domain :Gene ;
@@ -1027,12 +1250,6 @@
     a owl:ObjectProperty ;
     rdfs:domain :Gene .
 
-:gene_property
-    a owl:DatatypeProperty ;
-    rdfs:comment "Used to set key words for retrieval or display about a gene, such as genes listed by the ACMG guidelines."@en ;
-    rdfs:domain :Gene ;
-    rdfs:range xsd:string .
-
 :gene_relationship_type
     a owl:ObjectProperty ;
     rdfs:domain :Gene ;
@@ -1050,7 +1267,12 @@
 
 :gene_symbol
     a owl:DatatypeProperty ;
-    rdfs:domain :Gene ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:Gene
+            :GeneSCV
+        )
+    ] ;
     rdfs:range xsd:string .
 
 :geographic_origin
@@ -1077,6 +1299,16 @@
     a owl:DatatypeProperty ;
     rdfs:domain :SimpleAllele ;
     rdfs:range xsd:positiveInteger .
+
+:independent_observations
+    a owl:DatatypeProperty ;
+    rdfs:domain :RCVList ;
+    rdfs:range xsd:integer .
+
+:indication
+    a owl:ObjectProperty ;
+    rdfs:domain :Sample ;
+    rdfs:range :Indication .
 
 :inner_start
     a owl:DatatypeProperty ;
@@ -1105,36 +1337,90 @@
 :interpreted_condition
     a owl:ObjectProperty ;
     rdfs:domain :RCVAccession ;
-    rdfs:range :RCVInterpretedCondition .
+    rdfs:range :InterpretedCondition .
 
 :interpreted_variation
     a owl:ObjectProperty ;
     rdfs:range :InterpretedVariation .
 
-:localKeyIsSubmitted
-    a owl:DatatypeProperty ;
-    rdfs:domain :ClinVarSubmissionID .
-
 :local_key
     a owl:DatatypeProperty ;
+    rdfs:comment "The identifier provided by the submitter to facilitate identification of records corresponding to their submissions. If not provided by a submitter, NCBI generates one. If provided by submitter, that is represented in localKeyIsSubmitted."@en ;
     rdfs:domain :ClinVarSubmissionID ;
     rdfs:range xsd:string .
 
 :location
-    a owl:ObjectProperty .
+    a owl:ObjectProperty ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:Gene
+            :SimpleAllele
+            :SimpleAlleleSCV
+        )
+    ] ;
+    rdfs:range :Location .
+
+:mapping_ref
+    a owl:DatatypeProperty ;
+    rdfs:domain :TraitMapping ;
+    rdfs:range xsd:string .
+
+:mapping_type
+    a owl:ObjectProperty ;
+    rdfs:domain :TraitMapping ;
+    rdfs:range :MappingType .
+
+:mapping_value
+    a owl:DatatypeProperty ;
+    rdfs:domain :TraitMapping ;
+    rdfs:range xsd:string .
+
+:max_reported
+    a owl:DatatypeProperty ;
+    rdfs:domain :Method ;
+    rdfs:range xsd:string .
 
 :method
     a owl:ObjectProperty ;
-    rdfs:domain :ObservationSet ;
+    rdfs:domain :ObservedIn ;
     rdfs:range :Method .
+
+:method_attribute
+    a owl:ObjectProperty ;
+    rdfs:domain :Method ;
+    rdfs:range :MethodAttribute .
+
+:method_attribute_type
+    a owl:ObjectProperty ;
+    rdfs:domain :MethodAttribute ;
+    rdfs:range :MethodAttributeType .
 
 :method_type
     a owl:ObjectProperty ;
     rdfs:domain :Method ;
     rdfs:range :MethodType .
 
+:min_reported
+    a owl:DatatypeProperty ;
+    rdfs:domain :Method ;
+    rdfs:range xsd:string .
+
+:molecular_consequence
+    a owl:ObjectProperty ;
+    rdfs:domain :SimpleAlleleSCV ;
+    rdfs:range :MolecularConsequence .
+
 :name
     a owl:DatatypeProperty ;
+    rdfs:range xsd:string .
+
+:name_by_submitter
+    a owl:DatatypeProperty ;
+    rdfs:domain :SimpleAlleleSCV .
+
+:name_platform
+    a owl:DatatypeProperty ;
+    rdfs:domain :Method ;
     rdfs:range xsd:string .
 
 :nucleotide_expression
@@ -1173,13 +1459,34 @@
     rdfs:range xsd:integer .
 
 :number_of_copies
-    a owl:DatatypeProperty .
+    a owl:DatatypeProperty ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:Haplotype
+            :HaplotypeSCV
+        )
+    ] ;
+    rdfs:range xsd:int .
 
 :number_of_submissions
-    a owl:DatatypeProperty .
+    a owl:DatatypeProperty ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:Interpretation
+            :VariationArchive
+        )
+    ] ;
+    rdfs:range xsd:nonNegativeInteger .
 
 :number_of_submitters
-    a owl:DatatypeProperty .
+    a owl:DatatypeProperty ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:Interpretation
+            :VariationArchive
+        )
+    ] ;
+    rdfs:range xsd:nonNegativeInteger .
 
 :number_tested
     a owl:DatatypeProperty ;
@@ -1187,9 +1494,14 @@
     rdfs:domain :Sample ;
     rdfs:range xsd:integer .
 
+:obs_method_attribute
+    a owl:ObjectProperty ;
+    rdfs:domain :Method ;
+    rdfs:range :ObsMethodAttribute .
+
 :observed_data
     a owl:ObjectProperty ;
-    rdfs:domain :ObservationSet ;
+    rdfs:domain :ObservedIn ;
     rdfs:range :ObservedData .
 
 :observed_in
@@ -1211,10 +1523,18 @@
     rdfs:domain :Sample ;
     rdfs:range :Origin .
 
-:other_name_list
-    a owl:DatatypeProperty ;
-    rdfs:domain :SimpleAllele ;
-    rdfs:range xsd:string .
+:other_name
+    a owl:ObjectProperty ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:Genotype
+            :Haplotype
+            :HaplotypeSCV
+            :SimpleAllele
+            :SimpleAlleleSCV
+        )
+    ] ;
+    rdfs:range :OtherName .
 
 :outer_start
     a owl:DatatypeProperty ;
@@ -1230,14 +1550,19 @@
     a owl:DatatypeProperty ;
     rdfs:range xsd:string .
 
-:positive_vcf
-    a owl:DatatypeProperty ;
-    rdfs:domain :SequenceLocation ;
-    rdfs:range xsd:nonNegativeInteger .
-
 :proband
     a owl:DatatypeProperty ;
     rdfs:domain :Sample ;
+    rdfs:range xsd:string .
+
+:property
+    a owl:DatatypeProperty ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:Gene
+            :GeneSCV
+        )
+    ] ;
     rdfs:range xsd:string .
 
 :protein_change
@@ -1246,14 +1571,25 @@
     rdfs:domain :SimpleAllele ;
     rdfs:range xsd:string .
 
-:protein_chnage
-    a owl:DatatypeProperty ;
-    rdfs:domain :SimpleAllele .
-
 :protein_expression
     a owl:ObjectProperty ;
     rdfs:domain :HGVS ;
     rdfs:range :ProteinExpression .
+
+:purpose
+    a owl:DatatypeProperty ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:Method
+            :Software
+        )
+    ] ;
+    rdfs:range xsd:string .
+
+:rcv_accession
+    a owl:ObjectProperty ;
+    rdfs:domain :RCVList ;
+    rdfs:range :RCVAccession .
 
 :rcv_interpretation
     a owl:DatatypeProperty ;
@@ -1261,7 +1597,19 @@
     rdfs:range xsd:string .
 
 :rcv_list
-    a owl:ObjectProperty .
+    a owl:ObjectProperty ;
+    rdfs:domain :InterpretedRecord ;
+    rdfs:range :RCVList .
+
+:record
+    a owl:ObjectProperty ;
+    rdfs:domain :VariationArchive ;
+    rdfs:range [
+        a owl:Class ;
+        owl:unionOf (:IncludedRecord
+            :InterpretedRecord
+        )
+    ] .
 
 :record_status
     a owl:ObjectProperty ;
@@ -1283,6 +1631,21 @@
     rdfs:domain :SequenceLocation ;
     rdfs:range xsd:string .
 
+:reference_standard
+    a owl:DatatypeProperty ;
+    rdfs:domain :Method ;
+    rdfs:range xsd:string .
+
+:relationship_type
+    a owl:ObjectProperty ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:Gene
+            :GeneSCV
+        )
+    ] ;
+    rdfs:range :RelationshipType .
+
 :relative_orientation
     a owl:DatatypeProperty ;
     rdfs:domain :AlleleDescSet ;
@@ -1294,15 +1657,46 @@
         )
     ] .
 
+:replaced
+    a owl:ObjectProperty ;
+    rdfs:domain :VariationArchive ;
+    rdfs:range :Replaced .
+
+:replaced_by
+    a owl:ObjectProperty ;
+    rdfs:domain :VariationArchive ;
+    rdfs:range :Replaced .
+
 :review_status
     a owl:ObjectProperty ;
-    rdfs:domain :ClinicalAssertion ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:ClinicalAssertion
+            :ClinicalSignificance
+            :RCVAccession
+        )
+    ] ;
     rdfs:range :ReviewStatus .
 
 :sample
     a owl:ObjectProperty ;
-    rdfs:domain :ObservationSet ;
+    rdfs:domain :ObservedIn ;
     rdfs:range :Sample .
+
+:sample_description
+    a owl:ObjectProperty ;
+    rdfs:domain :Sample ;
+    rdfs:range :SampleDescription .
+
+:scv
+    a owl:ObjectProperty ;
+    rdfs:domain :IncludedRecord ;
+    rdfs:range [
+        a owl:Class ;
+        owl:unionOf (:DeletedSCV
+            :SCV
+        )
+    ] .
 
 :segregation_observed
     a owl:DatatypeProperty ;
@@ -1347,6 +1741,21 @@
     rdfs:domain :ClinicalAssertion ;
     rdfs:range :SingleInterpretation .
 
+:software
+    a owl:ObjectProperty ;
+    rdfs:domain :Method ;
+    rdfs:range :Software .
+
+:source_type
+    a owl:ObjectProperty ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:Method
+            :Sample
+        )
+    ] ;
+    rdfs:range :SourceType .
+
 :species
     a owl:DatatypeProperty ;
     rdfs:domain :Sample .
@@ -1362,11 +1771,23 @@
     rdfs:range xsd:positiveInteger .
 
 :strain
-    a owl:DatatypeProperty .
+    a owl:DatatypeProperty ;
+    rdfs:domain :Sample ;
+    rdfs:range xsd:string .
 
 :strand
     a owl:DatatypeProperty ;
     rdfs:domain :SequenceLocation ;
+    rdfs:range xsd:string .
+
+:study_description
+    a owl:DatatypeProperty ;
+    rdfs:domain :ClinicalAssertion ;
+    rdfs:range xsd:string .
+
+:study_name
+    a owl:DatatypeProperty ;
+    rdfs:domain :ClinicalAssertion ;
     rdfs:range xsd:string .
 
 :submission_count
@@ -1374,10 +1795,16 @@
     rdfs:domain [
         a owl:Class ;
         owl:unionOf (:RCVAccession
+            :RCVList
             :SimpleAllele
         )
     ] ;
     rdfs:range xsd:positiveInteger .
+
+:submission_name
+    a owl:DatatypeProperty ;
+    rdfs:domain :ClinicalAssertion ;
+    rdfs:range xsd:string .
 
 :submission_title
     a owl:DatatypeProperty .
@@ -1387,10 +1814,10 @@
     rdfs:domain :NucleotideExpression ;
     rdfs:range xsd:string .
 
-:submittedAssembly
-    a owl:DatatypeProperty ;
-    rdfs:domain :ClinVarSubmissionID ;
-    rdfs:range xsd:string .
+:submitted_interpretation_list
+    a owl:ObjectProperty ;
+    rdfs:domain :IncludedRecord ;
+    rdfs:range :SubmittedInterpretationList .
 
 :submitter_description
     a owl:ObjectProperty ;
@@ -1407,6 +1834,27 @@
     rdfs:domain :SubmitterDescription ;
     rdfs:range :SubmitterType .
 
+:suspect
+    a owl:ObjectProperty ;
+    rdfs:domain :SimpleAllele ;
+    rdfs:range :Suspect .
+
+:suspect_value
+    a owl:DatatypeProperty ;
+    rdfs:domain :Suspect ;
+    rdfs:range xsd:string .
+
+:symbol
+    a owl:ObjectProperty ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:Indication
+            :Trait
+            :TraitSet
+        )
+    ] ;
+    rdfs:range :Symbol .
+
 :target_id
     a owl:DatatypeProperty ;
     rdfs:domain :Condition ;
@@ -1419,8 +1867,23 @@
 
 :trait
     a owl:ObjectProperty ;
-    rdfs:domain :TraitSet ;
+    rdfs:domain [
+        a owl:Class ;
+        owl:unionOf (:Indication
+            :TraitSet
+        )
+    ] ;
     rdfs:range :Trait .
+
+:trait_mapping
+    a owl:ObjectProperty ;
+    rdfs:domain :InterpretedRecord ;
+    rdfs:range :TraitMapping .
+
+:trait_name
+    a owl:ObjectProperty ;
+    rdfs:domain :Trait ;
+    rdfs:range :TraitName .
 
 :trait_set
     a owl:ObjectProperty ;
@@ -1433,14 +1896,24 @@
     rdfs:range :TraitSetType .
 
 :trait_type
-    a owl:ObjectProperty ;
-    rdfs:domain :Trait ;
-    rdfs:range :TraitType .
+    a owl:DatatypeProperty, owl:ObjectProperty ;
+    rdfs:domain :Trait, :TraitMapping ;
+    rdfs:range xsd:string .
 
 :triplosensitivity
     a owl:ObjectProperty ;
     rdfs:domain :Gene ;
     rdfs:range :Triplosensitivity .
+
+:type_platform
+    a owl:DatatypeProperty ;
+    rdfs:domain :Method ;
+    rdfs:range xsd:string .
+
+:variation_id
+    a owl:DatatypeProperty ;
+    rdfs:domain :VariationArchive ;
+    rdfs:range xsd:string .
 
 :variation_length
     a owl:DatatypeProperty ;
@@ -1538,6 +2011,30 @@
 <http://purl.jp/bio/10/clinvar-ontology/Assertion#VariationToIncludedDisease>
     a :Assertion, owl:NamedIndividual ;
     rdfs:label "variation to included disease"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ClinAsserTraitType#BloodGroup>
+    a :ClinAsserTraitType, owl:NamedIndividual ;
+    rdfs:label "BloodGroup"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ClinAsserTraitType#Disease>
+    a :ClinAsserTraitType, owl:NamedIndividual ;
+    rdfs:label "Disease"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ClinAsserTraitType#DrugResponse>
+    a :ClinAsserTraitType, owl:NamedIndividual ;
+    rdfs:label "DrugResponse"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ClinAsserTraitType#Finding>
+    a :ClinAsserTraitType, owl:NamedIndividual ;
+    rdfs:label "Finding"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ClinAsserTraitType#NamedProteinVariant>
+    a :ClinAsserTraitType, owl:NamedIndividual ;
+    rdfs:label "NamedProteinVariant"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ClinAsserTraitType#PhenotypeInstruction>
+    a :ClinAsserTraitType, owl:NamedIndividual ;
+    rdfs:label "PhenotypeInstruction"@en .
 
 <http://purl.jp/bio/10/clinvar-ontology/ClinicalSignificance#Affects>
     a owl:NamedIndividual ;
@@ -1692,12 +2189,44 @@
     a :InterpretationType, owl:NamedIndividual ;
     rdfs:comment "Functional status"@en .
 
+<http://purl.jp/bio/10/clinvar-ontology/MappingType#Name>
+    a :MappingType, owl:NamedIndividual ;
+    rdfs:label "Name"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/MappingType#XRef>
+    a :MappingType, owl:NamedIndividual ;
+    rdfs:label "XRef"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/MethodAttributeType#ControlsAppropriate>
+    a :MethodAttributeType, owl:NamedIndividual ;
+    rdfs:label "ControlsAppropriate"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/MethodAttributeType#Location>
+    a :MethodAttributeType, owl:NamedIndividual ;
+    rdfs:label "Location"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/MethodAttributeType#MethodAppropriate>
+    a :MethodAttributeType, owl:NamedIndividual ;
+    rdfs:label "MethodAppropriate"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/MethodAttributeType#ProbeAccession>
+    a :MethodAttributeType, owl:NamedIndividual ;
+    rdfs:label "ProbeAccession"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/MethodAttributeType#StructVarMethodType>
+    a :MethodAttributeType, owl:NamedIndividual ;
+    rdfs:label "StructVarMethodType"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/MethodAttributeType#TestName>
+    a :MethodAttributeType, owl:NamedIndividual ;
+    rdfs:label "TestName"@en .
+
 <http://purl.jp/bio/10/clinvar-ontology/MethodType#CaseControl>
     a :MethodType, owl:NamedIndividual ;
     rdfs:label "case-control"@en .
 
 <http://purl.jp/bio/10/clinvar-ontology/MethodType#ClinicalTesting>
-    a :MethodType, owl:NamedIndividual ;
+    a owl:NamedIndividual ;
     rdfs:label "clinical testing"@en .
 
 <http://purl.jp/bio/10/clinvar-ontology/MethodType#Curation>
@@ -1742,6 +2271,115 @@
 
 <http://purl.jp/bio/10/clinvar-ontology/MethodType#VariantType>
     a owl:Class .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObsMethodAttributeType#MethodResult>
+    a :ObsMethodAttributeType, owl:NamedIndividual ;
+    rdfs:label "MethodResult"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObsMethodAttributeType#TestingLaboratory>
+    a :ObsMethodAttributeType, owl:NamedIndividual ;
+    rdfs:label "TestingLaboratory"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObsMethodAttributeType#obs_method_attribute_type>
+    a owl:ObjectProperty ;
+    rdfs:domain :ObsMethodAttribute ;
+    rdfs:range :ObsMethodAttributeType .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#AlleleFrequency>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "AlleleFrequency"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#CompoundHeterozygote>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "CompoundHeterozygote"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#CosegregatingFamilies>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "CosegregatingFamilies"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#Description>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "Description"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#FamilyHistory>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "FamilyHistory"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#GenotypeAndMOIConsistent>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "GenotypeAndMOIConsistent"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#Hemizygote>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "Hemizygote"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#HetParentTransmitNormalAllele>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "HetParentTransmitNormalAllele"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#Homozygote>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "Homozygote"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#IndependentObservations>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "IndependentObservations"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#InformativeMeioses>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "InformativeMeioses"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#NumFamiliesWithSegregationObserved>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "NumFamiliesWithSegregationObserved"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#NumFamiliesWithVariant>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "NumFamiliesWithVariant"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#NumberMosaic>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "NumberMosaic"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#ObservedUnspecified>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "ObservedUnspecified"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#SampleLocalID>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "SampleLocalID"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#SecondaryFinding>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "SecondaryFinding"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#SegregationObserved>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "SegregationObserved"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#SingleHeterozygote>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "SingleHeterozygote"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#SubjectsWithDifferentCausativeVariant>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "SubjectsWithDifferentCausativeVariant"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#SubjectsWithVariant>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "SubjectsWithVariant"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#UnaffectedFamilyMemberWithCausativeVariant>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "UnaffectedFamilyMemberWithCausativeVariant"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#VariantAlleles>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "VariantAlleles"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ObservedDataAttributeType#VariantChromosomes>
+    a :ObservedDataAttributeType, owl:NamedIndividual ;
+    rdfs:label "VariantChromosomes"@en .
 
 <http://purl.jp/bio/10/clinvar-ontology/Origin#Biparental>
     a :Origin, owl:NamedIndividual ;
@@ -1859,6 +2497,27 @@
     a :RelationshipType, owl:NamedIndividual ;
     rdfs:label "within single gene"@en .
 
+<http://purl.jp/bio/10/clinvar-ontology/ResultType#NumberOfOccurrences>
+    a :ResultType, owl:NamedIndividual ;
+    rdfs:label "number of occurrences"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ResultType#OddsRatio>
+    a :ResultType, owl:NamedIndividual ;
+    rdfs:label "odds ratio"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ResultType#PValue>
+    a :ResultType, owl:NamedIndividual ;
+    rdfs:label "p value"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ResultType#VariantCall>
+    a :ResultType, owl:NamedIndividual ;
+    rdfs:label "variant call"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/ResultType#result_type>
+    a owl:ObjectProperty ;
+    rdfs:domain :Method ;
+    rdfs:range :ResultType .
+
 <http://purl.jp/bio/10/clinvar-ontology/ReviewStatus#ClassifiedByMultipleSubmitters>
     a :ReviewStatus, owl:NamedIndividual ;
     rdfs:comment "This instance, \"classified by multiple submitters\", is added for backward compatibility from clinvar_public.xsd"@en, "classified by multiple submitters"@en .
@@ -1936,6 +2595,18 @@
     a :Severity, owl:NamedIndividual ;
     rdfs:label "severe"@en .
 
+<http://purl.jp/bio/10/clinvar-ontology/SourceType#DataMining>
+    a :SourceType, owl:NamedIndividual ;
+    rdfs:label "data mining"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/SourceType#DataReview>
+    a :SourceType, owl:NamedIndividual ;
+    rdfs:label "data review"@en .
+
+<http://purl.jp/bio/10/clinvar-ontology/SourceType#SubmitterGenerated>
+    a :SourceType, owl:NamedIndividual ;
+    rdfs:label "submitter-generated"@en .
+
 <http://purl.jp/bio/10/clinvar-ontology/SubmitterType#Behalf>
     a :SubmitterType, owl:NamedIndividual ;
     rdfs:label "behalf"@en .
@@ -1969,27 +2640,27 @@
     rdfs:label "TraitChoice"@en .
 
 <http://purl.jp/bio/10/clinvar-ontology/TraitType#BloodGroup>
-    a :TraitType, owl:NamedIndividual ;
+    a owl:NamedIndividual ;
     rdfs:label "BloodGroup"@en .
 
 <http://purl.jp/bio/10/clinvar-ontology/TraitType#Disease>
-    a :TraitType, owl:NamedIndividual ;
+    a owl:NamedIndividual ;
     rdfs:label "Disease"@en .
 
 <http://purl.jp/bio/10/clinvar-ontology/TraitType#DrugResponse>
-    a :TraitType, owl:NamedIndividual ;
+    a owl:NamedIndividual ;
     rdfs:label "DrugResponse"@en .
 
 <http://purl.jp/bio/10/clinvar-ontology/TraitType#Finding>
-    a :TraitType, owl:NamedIndividual ;
+    a owl:NamedIndividual ;
     rdfs:label "Finding"@en .
 
 <http://purl.jp/bio/10/clinvar-ontology/TraitType#NamedProteinVariant>
-    a :TraitType, owl:NamedIndividual ;
+    a owl:NamedIndividual ;
     rdfs:label "NamedProteinVariant"@en .
 
 <http://purl.jp/bio/10/clinvar-ontology/TraitType#PhenotypeInstruction>
-    a :TraitType, owl:NamedIndividual ;
+    a owl:NamedIndividual ;
     rdfs:label "PhenotypeInstruction"@en .
 
 <http://purl.jp/bio/10/clinvar-ontology/Zygosity#CompoundHeterozygote>
@@ -2014,4 +2685,7 @@
 
 <http://purl.org/dc/elements/1.1/description>
     a owl:AnnotationProperty .
+
+xsd:date
+    a rdfs:Datatype .
 
